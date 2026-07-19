@@ -27,6 +27,31 @@ export default function AdminAnalytics({ userRole }: AdminAnalyticsProps) {
       .finally(() => setLoading(false));
   }, [userRole]);
 
+  const categoryDistribution = React.useMemo(() => {
+    if (!metrics || !metrics.articlePerformance) return [];
+    const counts: Record<string, number> = {};
+    metrics.articlePerformance.forEach((art) => {
+      let cat = art.category || 'Uncategorized';
+      cat = cat.trim();
+      if (cat.toLowerCase() === 'artificial-intelligence' || cat.toLowerCase() === 'ai') {
+        cat = 'AI';
+      } else if (cat.toLowerCase() === 'entrepreneurship') {
+        cat = 'Entrepreneurship';
+      } else if (cat.toLowerCase() === 'productivity') {
+        cat = 'Productivity';
+      } else if (cat.toLowerCase() === 'technology') {
+        cat = 'Technology';
+      } else {
+        cat = cat.charAt(0).toUpperCase() + cat.slice(1);
+      }
+      counts[cat] = (counts[cat] || 0) + 1;
+    });
+    return Object.entries(counts).map(([name, value]) => ({
+      name,
+      value,
+    }));
+  }, [metrics]);
+
   if (!hasAccess) {
     return (
       <div className="max-w-md mx-auto py-20 text-center space-y-6">
@@ -67,31 +92,6 @@ export default function AdminAnalytics({ userRole }: AdminAnalyticsProps) {
     { category: 'Productivity', percentage: 54, color: 'bg-emerald-500', views: '1.6K' },
     { category: 'Technology', percentage: 38, color: 'bg-amber-500', views: '1.1K' },
   ];
-
-  const categoryDistribution = React.useMemo(() => {
-    if (!metrics || !metrics.articlePerformance) return [];
-    const counts: Record<string, number> = {};
-    metrics.articlePerformance.forEach((art) => {
-      let cat = art.category || 'Uncategorized';
-      cat = cat.trim();
-      if (cat.toLowerCase() === 'artificial-intelligence' || cat.toLowerCase() === 'ai') {
-        cat = 'AI';
-      } else if (cat.toLowerCase() === 'entrepreneurship') {
-        cat = 'Entrepreneurship';
-      } else if (cat.toLowerCase() === 'productivity') {
-        cat = 'Productivity';
-      } else if (cat.toLowerCase() === 'technology') {
-        cat = 'Technology';
-      } else {
-        cat = cat.charAt(0).toUpperCase() + cat.slice(1);
-      }
-      counts[cat] = (counts[cat] || 0) + 1;
-    });
-    return Object.entries(counts).map(([name, value]) => ({
-      name,
-      value,
-    }));
-  }, [metrics]);
 
   const PIE_COLORS = ['#4f46e5', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899', '#3b82f6'];
 

@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Newsreader", Georgia, serif;
+
+  /* Brand color #F27D26 (Copper Orange) remapped over indigo for easy global updates */
+  --color-indigo-50: #fff4ed;
+  --color-indigo-100: #ffe5d3;
+  --color-indigo-200: #ffc9a6;
+  --color-indigo-300: #fea16d;
+  --color-indigo-400: #fc7533;
+  --color-indigo-500: #F27D26; /* glowing copper orange brand color */
+  --color-indigo-600: #e06516;
+  --color-indigo-700: #ba4e10;
+  --color-indigo-800: #933b0d;
+  --color-indigo-900: #77310e;
+  --color-indigo-950: #401605;
+
+  /* Redefine violet to molten amber-Sunset gradient */
+  --color-violet-500: #f95216;
+  --color-violet-600: #d63d09;
+}
+
+/* Base style resets for Sophisticated Dark theme */
+html, body {
+  background-color: #050505 !important;
+  color: #f5f5f5 !important;
+  font-family: "Inter", sans-serif;
+}
+
+/* Force container backgrounds into dark-mode variants */
+.bg-white, [class*="bg-white/"] {
+  background-color: #0c0c0c !important;
+}
+
+.bg-slate-50, .bg-slate-50\/50, .bg-gray-50, .bg-gray-50\/50 {
+  background-color: #050505 !important;
+}
+
+/* Subtle panel borders */
+.border-gray-100, .border-slate-100, .border-indigo-100, .border-indigo-100\/35, .border-slate-200, .border-gray-150 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.border-gray-50, .border-slate-50, .border-slate-200\/50, .border-slate-200\/60 {
+  border-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* High fidelity typography contrast override */
+.text-gray-900, .text-slate-900, .text-slate-700 {
+  color: #ffffff !important;
+}
+
+.text-gray-800, .text-slate-800, .text-gray-700 {
+  color: #f1f1f1 !important;
+}
+
+.text-gray-600, .text-slate-600, .text-gray-500, .text-slate-500 {
+  color: #a3a3a3 !important;
+}
+
+.text-gray-400, .text-slate-400 {
+  color: #737373 !important;
+}
+
+/* Headline Editorial Font style */
+h1, h2, h3, .font-serif {
+  font-family: "Newsreader", Georgia, serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Premium article body reading experience */
+article p, article {
+  font-family: "Newsreader", Georgia, serif !important;
+  font-size: 1.05rem !important;
+  line-height: 1.7 !important;
+  color: #e5e5e5 !important;
+}
+
+/* Universal input styling */
+input[type="text"], input[type="email"], textarea, select {
+  background-color: #121212 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focus {
+  border-color: #F27D26 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 1px rgba(242, 125, 38, 0.2) !important;
+}
+
+/* Header styling */
+#nav-header {
+  background-color: rgba(12, 12, 12, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Footer & Newsletter Block Darkening */
+#nexus-footer-block, #newsletter-signup-block {
+  background-color: #020202 !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Scrollbar styling */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom animation shakes */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Nexus",
+  "description": "A full-stack, production-ready digital publishing platform focused on artificial intelligence, technology, productivity, and entrepreneurship. Features real-time article management, drafts, comments, resource library, AI tools directory, newsletter subscriptions, and AI-powered writing assistant features.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

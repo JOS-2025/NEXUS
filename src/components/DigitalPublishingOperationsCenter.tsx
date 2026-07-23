@@ -39,7 +39,7 @@ export default function DigitalPublishingOperationsCenter({
           <div className="bg-slate-950 border border-slate-850 p-4 rounded-2xl mt-4">
             <span className="font-mono text-[10px] uppercase font-bold text-slate-500 block mb-1">Access Status:</span>
             <p className="text-[11px] text-indigo-400 font-semibold leading-normal">
-              Switch your profile role to <strong>Administrator</strong> using the top header navigation panel to authorize access!
+              Sign in with an authorized <strong>Administrator account</strong> (detected directly from the database) to gain access.
             </p>
           </div>
         </div>

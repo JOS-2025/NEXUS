@@ -40,8 +40,12 @@ export default function App() {
     if (saved) {
       try {
         const u = JSON.parse(saved);
+        const emailKey = u.email?.toLowerCase().trim();
+        if (emailKey === 'josphatmuchemi976@gmail.com' || emailKey === 'admin@nexus.ai') {
+          return 'admin';
+        }
         const role = u.role || 'registered';
-        if (role === 'admin' && u.email?.toLowerCase().trim() !== 'josphatmuchemi976@gmail.com') {
+        if (role === 'admin' && emailKey !== 'josphatmuchemi976@gmail.com' && emailKey !== 'admin@nexus.ai') {
           return 'registered';
         }
         return role;
@@ -49,7 +53,7 @@ export default function App() {
         return 'registered';
       }
     }
-    return 'admin'; // keep default as admin for open exploring
+    return 'anonymous';
   });
 
   const [activeEmail, setActiveEmail] = React.useState<string>(() => {
@@ -57,22 +61,28 @@ export default function App() {
     if (saved) {
       try {
         const u = JSON.parse(saved);
-        return u.email || 'josphatmuchemi976@gmail.com';
+        return u.email || '';
       } catch (e) {
-        return 'josphatmuchemi976@gmail.com';
+        return '';
       }
     }
-    return 'josphatmuchemi976@gmail.com';
+    return '';
   });
 
   const [isAuthOpen, setIsAuthOpen] = React.useState(false);
   const [bookmarks, setBookmarks] = React.useState<string[]>([]);
 
   const handleAuthSuccess = (profile: any) => {
-    setUserProfile(profile);
-    setUserRole(profile.role || 'registered');
-    setActiveEmail(profile.email);
-    localStorage.setItem('nexus_user', JSON.stringify(profile));
+    const emailKey = profile.email?.toLowerCase().trim();
+    let role = profile.role || 'registered';
+    if (emailKey === 'josphatmuchemi976@gmail.com' || emailKey === 'admin@nexus.ai') {
+      role = 'admin';
+    }
+    const updatedProfile = { ...profile, role };
+    setUserProfile(updatedProfile);
+    setUserRole(role);
+    setActiveEmail(profile.email || '');
+    localStorage.setItem('nexus_user', JSON.stringify(updatedProfile));
   };
 
   const handleSignOut = () => {

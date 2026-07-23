@@ -183,10 +183,13 @@ export default function Navbar({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo Brand */}
-          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => handleTabChange('home')}>
-            <div className="p-2 bg-gradient-to-tr from-indigo-600 to-violet-500 rounded-xl text-white shadow-md shadow-indigo-200">
-              <Cpu className="w-6 h-6" />
-            </div>
+          <div className="flex items-center space-x-2.5 cursor-pointer" onClick={() => handleTabChange('home')}>
+            <img 
+              src="/src/assets/images/app_favicon_1784831327118.jpg" 
+              alt="Nexus Logo" 
+              className="w-9 h-9 rounded-xl object-cover shadow-md shadow-indigo-200 border border-slate-900"
+              referrerPolicy="no-referrer"
+            />
             <div className="flex flex-col text-left">
               <span className="font-sans font-bold text-xl tracking-tight text-gray-900 leading-none uppercase">{settings.siteName}</span>
               <span className="font-mono text-[9px] text-indigo-600 font-bold tracking-widest uppercase">{settings.siteTagline}</span>

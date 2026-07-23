@@ -157,19 +157,6 @@ export default function Navbar({
     return () => window.removeEventListener('nexus_settings_changed', updateSettings);
   }, []);
 
-  const roles = React.useMemo(() => {
-    const list = [
-      { value: 'anonymous', label: 'Anonymous Visitor' },
-      { value: 'registered', label: 'Registered Reader' },
-      { value: 'author', label: 'Author' },
-      { value: 'editor', label: 'Editor' },
-    ];
-    if (activeEmail.toLowerCase().trim() === 'josphatmuchemi976@gmail.com') {
-      list.push({ value: 'admin', label: 'Administrator' });
-    }
-    return list;
-  }, [activeEmail]);
-
   const handleTabChange = (tab: string) => {
     if (tab === 'home') {
       onClearFilters();
@@ -233,24 +220,28 @@ export default function Navbar({
               <User className="w-4 h-4" />
               <span>My Dashboard</span>
             </button>
-            <button
-              onClick={() => handleTabChange('cms')}
-              className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-1.5 transition-colors ${
-                currentTab === 'cms' ? 'text-indigo-600 bg-indigo-50/50' : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50'
-              }`}
-            >
-              <Newspaper className="w-4 h-4" />
-              <span>Creator Studio</span>
-            </button>
-            <button
-              onClick={() => handleTabChange('analytics')}
-              className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-1.5 transition-colors ${
-                currentTab === 'analytics' ? 'text-indigo-600 bg-indigo-50/50' : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50'
-              }`}
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              <span>{userRole === 'admin' ? 'Ops Center' : 'Analytics'}</span>
-            </button>
+            {(userRole === 'admin' || userRole === 'editor' || userRole === 'author') && (
+              <button
+                onClick={() => handleTabChange('cms')}
+                className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-1.5 transition-colors ${
+                  currentTab === 'cms' ? 'text-indigo-600 bg-indigo-50/50' : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50'
+                }`}
+              >
+                <Newspaper className="w-4 h-4" />
+                <span>Creator Studio</span>
+              </button>
+            )}
+            {userRole === 'admin' && (
+              <button
+                onClick={() => handleTabChange('analytics')}
+                className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-1.5 transition-colors ${
+                  currentTab === 'analytics' ? 'text-indigo-600 bg-indigo-50/50' : 'text-gray-600 hover:text-indigo-600 hover:bg-gray-50'
+                }`}
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                <span>Ops Center</span>
+              </button>
+            )}
             <button
               onClick={() => handleTabChange('about')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -321,25 +312,9 @@ export default function Navbar({
                     <div className="px-3 py-2 border-b border-slate-50">
                       <span className="block text-xs font-bold text-slate-800 truncate">{userProfile.displayName || 'User Profile'}</span>
                       <span className="block text-[10px] text-slate-400 truncate mt-0.5">{userProfile.email}</span>
-                    </div>
-                    
-                    {/* Simulated Workspace Switcher inside profile dropdown */}
-                    <div className="px-3 py-1.5">
-                      <span className="block text-[8px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-1">Simulate Workspace:</span>
-                      <select
-                        value={userRole}
-                        onChange={(e) => {
-                          setUserRole(e.target.value as any);
-                          setIsProfileOpen(false);
-                        }}
-                        className="w-full bg-slate-50 border border-slate-150 rounded-lg text-[10px] font-bold text-slate-600 py-1 px-1.5 focus:outline-none focus:ring-0 cursor-pointer"
-                      >
-                        {roles.map((r) => (
-                          <option key={r.value} value={r.value}>
-                            {r.label}
-                          </option>
-                        ))}
-                      </select>
+                      <span className="inline-block mt-1.5 px-2 py-0.5 bg-indigo-50 text-indigo-700 font-mono text-[9px] font-bold uppercase tracking-wider rounded-md">
+                        Role: {userRole}
+                      </span>
                     </div>
 
                     <button
@@ -356,30 +331,13 @@ export default function Navbar({
                 )}
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-1 bg-slate-50 border border-slate-100 rounded-full px-2.5 py-1 shadow-inner">
-                  <UserCheck className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
-                  <select
-                    value={userRole}
-                    onChange={(e) => setUserRole(e.target.value as any)}
-                    className="bg-transparent border-none text-[10px] font-bold text-slate-600 focus:outline-none cursor-pointer pr-1 leading-none"
-                  >
-                    {roles.map((r) => (
-                      <option key={r.value} value={r.value}>
-                        {r.value.toUpperCase()}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <button
-                  onClick={onOpenAuth}
-                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-xs font-bold shadow-md shadow-indigo-100 flex items-center space-x-1.5 transition-all cursor-pointer"
-                >
-                  <LogIn className="w-3.5 h-3.5" />
-                  <span>Sign In</span>
-                </button>
-              </div>
+              <button
+                onClick={onOpenAuth}
+                className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-xs font-bold shadow-md shadow-indigo-100 flex items-center space-x-1.5 transition-all cursor-pointer"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </button>
             )}
           </div>
 
@@ -419,19 +377,12 @@ export default function Navbar({
                 {userProfile.displayName ? userProfile.displayName.charAt(0) : userProfile.email.charAt(0)}
               </div>
             ) : (
-              <div className="flex items-center space-x-1 bg-gray-50 border border-gray-100 rounded-full px-2 py-1">
-                <select
-                  value={userRole}
-                  onChange={(e) => setUserRole(e.target.value as any)}
-                  className="bg-transparent border-none text-[10px] font-semibold text-gray-700 focus:outline-none pr-1"
-                >
-                  {roles.map((r) => (
-                    <option key={r.value} value={r.value}>
-                      {r.value.toUpperCase()}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <button
+                onClick={onOpenAuth}
+                className="px-3 py-1 bg-indigo-600 text-white rounded-full text-xs font-bold shadow-sm"
+              >
+                Sign In
+              </button>
             )}
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -478,22 +429,26 @@ export default function Navbar({
           >
             My Dashboard
           </button>
-          <button
-            onClick={() => handleTabChange('cms')}
-            className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium block ${
-              currentTab === 'cms' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
-            }`}
-          >
-            Creator Studio
-          </button>
-          <button
-            onClick={() => handleTabChange('analytics')}
-            className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium block ${
-              currentTab === 'analytics' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
-            }`}
-          >
-            {userRole === 'admin' ? 'Ops Center' : 'Analytics Board'}
-          </button>
+          {(userRole === 'admin' || userRole === 'editor' || userRole === 'author') && (
+            <button
+              onClick={() => handleTabChange('cms')}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium block ${
+                currentTab === 'cms' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+              }`}
+            >
+              Creator Studio
+            </button>
+          )}
+          {userRole === 'admin' && (
+            <button
+              onClick={() => handleTabChange('analytics')}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium block ${
+                currentTab === 'analytics' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+              }`}
+            >
+              Ops Center
+            </button>
+          )}
           <button
             onClick={() => handleTabChange('about')}
             className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium block ${
@@ -518,25 +473,9 @@ export default function Navbar({
                       {userProfile.email}
                     </span>
                     <span className="inline-block mt-1 px-2 py-0.5 bg-indigo-50 text-indigo-700 font-mono text-[8px] font-bold uppercase tracking-wider rounded-md">
-                      {userRole}
+                      Role: {userRole}
                     </span>
                   </div>
-                </div>
-
-                {/* Mobile simulated role select */}
-                <div className="space-y-1">
-                  <span className="block text-[8px] font-mono font-bold text-slate-400 uppercase tracking-wider">Simulated Role:</span>
-                  <select
-                    value={userRole}
-                    onChange={(e) => setUserRole(e.target.value as any)}
-                    className="w-full bg-slate-50 border border-slate-150 rounded-xl text-xs font-bold text-slate-600 py-2 px-3 focus:outline-none focus:ring-0 cursor-pointer"
-                  >
-                    {roles.map((r) => (
-                      <option key={r.value} value={r.value}>
-                        {r.label}
-                      </option>
-                    ))}
-                  </select>
                 </div>
 
                 <button

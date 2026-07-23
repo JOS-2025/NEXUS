@@ -897,6 +897,26 @@ app.get('/api/admin/users', (req, res) => {
             linkedin: "https://linkedin.com",
             website: "https://nexus.ai"
           }
+        },
+        { 
+          email: "josphatmuchemi976@gmail.com", 
+          authorId: "auth-owner",
+          displayName: "Josphat Muchemi", 
+          role: "admin", 
+          password: "password123",
+          preferredCategories: ["Artificial Intelligence", "Technology"], 
+          bio: "System Administrator and Lead Platform Director.", 
+          bookmarks: [], 
+          readingHistory: [], 
+          streakCount: 99, 
+          lastActiveDate: new Date().toISOString().split('T')[0], 
+          readingGoalMinutesPerDay: 30,
+          socialLinks: {
+            github: "https://github.com",
+            twitter: "https://twitter.com",
+            linkedin: "https://linkedin.com",
+            website: "https://nexus.ai"
+          }
         }
       ];
       seedUsers.forEach(u => {
